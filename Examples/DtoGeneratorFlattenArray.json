@@ -1,0 +1,9 @@
+{
+  "dtoData": {
+    "method": "method",
+    "keys":"keys"
+  },
+  "className": "FlattenArrayDto",
+  "namespace": "Matters\\Utilities\\Dtos",
+  "directory": "../Src/Dtos"
+}

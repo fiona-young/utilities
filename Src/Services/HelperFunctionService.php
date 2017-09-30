@@ -11,4 +11,7 @@ class HelperFunctionService
         return @file_get_contents($fileName);
     }
 
+    public function filePutContents($fileName, $data){
+        return @file_put_contents($fileName, $data);
+    }
 }

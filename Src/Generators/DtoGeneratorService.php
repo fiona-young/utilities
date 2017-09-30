@@ -4,41 +4,51 @@ namespace Matters\Utilities\Generators;
 
 use Matters\Utilities\Dtos\DtoGeneratorInfo;
 use Matters\Utilities\Exceptions\DtoGeneratorServiceException;
+use Matters\Utilities\Services\ClassWriterService;
 use Matters\Utilities\Services\FileService;
+use Matters\Utilities\Services\FlattenArrayService;
 
 class DtoGeneratorService
 {
     const PARAM_DTO_DATA = 'dtoData';
+    const PARAM_DTO_FILE = 'dtoFile';
     const PARAM_CLASS_NAME = 'className';
     const PARAM_NAMESPACE = 'namespace';
+    const PARAM_DIRECTORY = 'directory';
     private $fileService;
+    private $flattenArrayService;
+    private $classWriter;
 
-    public function __construct(FileService $fileService)
+    public function __construct(FileService $fileService, FlattenArrayService $flattenArrayService, ClassWriterService $classWriter)
     {
         $this->fileService = $fileService;
+        $this->flattenArrayService = $flattenArrayService;
+        $this->classWriter = $classWriter;
     }
 
     public function loadFile($fileLocation)
     {
         $data = $this->fileService->getDecodeJsonFromFile($fileLocation);
-        $dtoGeneratorInfo = new DtoGeneratorInfo();
-        if (array_key_exists(self::PARAM_DTO_DATA, $data)) {
-            $dtoGeneratorInfo->setDtoData($data[self::PARAM_DTO_DATA]);
-        } else {
-            throw new DtoGeneratorServiceException('Data '.self::PARAM_DTO_DATA.' not set in input file '.$fileLocation);
-        }
-        foreach ([self::PARAM_CLASS_NAME, self::PARAM_NAMESPACE] as $param) {
-            if (!array_key_exists($param, $data)) {
-                throw new DtoGeneratorServiceException('Data '.$param.' not set in input file '.$fileLocation);
+        $dir = dirname($fileLocation).'/';
+        if (!array_key_exists(self::PARAM_DTO_DATA, $data)) {
+            if(!array_key_exists(self::PARAM_DTO_FILE, $data)) {
+                throw new DtoGeneratorServiceException('Data '.self::PARAM_DTO_DATA.'or '.self::PARAM_DTO_FILE.' not set in input file '.$fileLocation);
             }
-            $dtoGeneratorInfo->setAttribute($param, $data[$param]);
+            $data[self::PARAM_DTO_DATA]= $this->fileService->getDecodeJsonFromFile($dir. $data[self::PARAM_DTO_FILE]);
+            unset($data[self::PARAM_DTO_FILE]);
         }
-
+        $dtoGeneratorInfo = new DtoGeneratorInfo($data);
+        $dtoGeneratorInfo->setDirectory($dir.$dtoGeneratorInfo->getDirectory());
         return $dtoGeneratorInfo;
     }
 
     public function process($fileLocation){
         $dtoGeneratorInfo = $this->loadFile($fileLocation);
-        $a = 1;
+        $flattenedList = $this->flattenArrayService->getFlattenedArrayList($dtoGeneratorInfo->getDtoData());
+        $classText = $this->classWriter->getDtoClassText($dtoGeneratorInfo, $flattenedList);
+        $fileName = $dtoGeneratorInfo->getDirectory()."/".$dtoGeneratorInfo->getClassName().".php";
+        $this->fileService->writeFile($fileName, $classText);
+        return $fileName;
     }
+
 }

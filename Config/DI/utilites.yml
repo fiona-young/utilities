@@ -7,7 +7,15 @@ services:
         arguments:
           - @Matters\Utilities\Services\HelperFunctionService
 
+      Matters\Utilities\Services\FlattenArrayService:
+        class: Matters\Utilities\Services\FlattenArrayService
+
+      Matters\Utilities\Services\ClassWriterService:
+        class: Matters\Utilities\Services\ClassWriterService
+
       Matters\Utilities\Generators\DtoGeneratorService:
         class: Matters\Utilities\Generators\DtoGeneratorService
         arguments:
           - @Matters\Utilities\Services\FileService
+          - @Matters\Utilities\Services\FlattenArrayService
+          - @Matters\Utilities\Services\ClassWriterService

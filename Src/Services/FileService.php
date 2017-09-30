@@ -27,4 +27,8 @@ class FileService{
         }
         return $decoded;
     }
+
+    public function writeFile($fileLocation, $data){
+        $this->helpers->filePutContents($fileLocation, $data);
+    }
 }
