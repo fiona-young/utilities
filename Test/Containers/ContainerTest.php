@@ -1,13 +1,13 @@
 <?php
-namespace Solarwinds\Oauth2\Test\Containers;
+namespace Matters\Utilities\Test\Containers;
 use Exception;
-use Oauth2CachedDIContainer;
-use Solarwinds\Oauth2\Containers\Symfony;
-use Solarwinds\Oauth2\Test\TestCase;
+use Matters\Utilities\Containers\Symfony;
+use Matters\Utilities\Test\TestCase;
+
 
 class ContainerTest extends TestCase {
 
-    /** @var Oauth2CachedDIContainer $subject */
+    /** @var \UtilitiesCachedDIContainer $subject */
     private $subject;
     const ERROR_MESSAGE = 'Container id: %s '."\n\t".'error(%s) %s '."\n\t".'in %s on line %s'."\n";
 
@@ -30,10 +30,9 @@ class ContainerTest extends TestCase {
     }
 
     public function testDefinedServicesWithErrors() {
-        $oldErrorHandler = set_error_handler('Solarwinds\Oauth2\Test\Containers\ContainerTestErrorHandler');
+        $oldErrorHandler = set_error_handler('Matters\Utilities\Test\Containers\ContainerTestErrorHandler');
         $failure = [];
         foreach ($this->subject->getServiceIds() as $sId) {
-            set_error_handler('Solarwinds\Oauth2\Test\Containers\ContainerTestErrorHandler'); //yes, some services override this
             try {
                 $this->assertNotNull($this->subject->get($sId));
             } catch (ContainerTestException $e) {

@@ -2,4 +2,4 @@
 namespace Matters\Utilities\Exceptions;
 
 
-class DtoGeneratorException extends UtilitiesException {}
+class DtoGeneratorServiceException extends UtilitiesException {}

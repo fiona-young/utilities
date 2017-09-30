@@ -1,7 +1,13 @@
 <?php
+namespace Matters\Utilities\Dtos;
 /**
- * Created by PhpStorm.
- * User: fcowi
- * Date: 30/09/2017
- * Time: 13:38
+ * Class DtoGeneratorInfo
+ * @method getDtoData();
+ * @method setDtoData($value);
+ * @method getNamespace();
+ * @method setNamespace($value);
+ * @method getClassName();
+ * @method setClassName($value);
  */
+class DtoGeneratorInfo extends DtoBase{
+}

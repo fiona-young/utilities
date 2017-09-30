@@ -1,6 +1,7 @@
 <?php
-namespace Matters\GeneticSim\Utilities;
-use Matters\GeneticSim\Exceptions\FileServiceException;
+namespace Matters\Utilities\Services;
+
+use Matters\Utilities\Exceptions\FileServiceException;
 
 class FileService{
     private $helpers;
@@ -24,6 +25,6 @@ class FileService{
         if(is_null($decoded)){
             throw new FileServiceException(sprintf("string from (%s) is unparsible json (%s)", $fileLocation, $json));
         }
-        return new $decoded;
+        return $decoded;
     }
 }

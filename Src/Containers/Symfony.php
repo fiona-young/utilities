@@ -1,5 +1,5 @@
 <?php
-namespace Matters\GeneticSim\Containers;
+namespace Matters\Utilities\Containers;
 
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\FileLocator;
@@ -22,7 +22,7 @@ class Symfony
      */
     private $isCompiled = false;
 
-    const CACHE_CONTAINER_NAME = 'GeneticCachedDIContainer';
+    const CACHE_CONTAINER_NAME = 'UtilitiesCachedDIContainer';
 
     /**
      * @var Container
@@ -144,7 +144,7 @@ class Symfony
      */
     private function getDIConfigPath()
     {
-        return $this->getBasePath() . "/Config/";
+        return $this->getBasePath() . "/../../Config/DI/";
     }
 
     /**

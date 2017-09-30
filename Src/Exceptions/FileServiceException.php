@@ -1,5 +1,5 @@
 <?php
-namespace Matters\GeneticSim\Exceptions;
+namespace Matters\Utilities\Exceptions;
 
 
-class FileServiceException extends GeneticSimException{}
+class FileServiceException extends UtilitiesException {}

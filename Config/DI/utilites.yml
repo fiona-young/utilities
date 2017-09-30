@@ -6,3 +6,8 @@ services:
         class: Matters\Utilities\Services\FileService
         arguments:
           - @Matters\Utilities\Services\HelperFunctionService
+
+      Matters\Utilities\Generators\DtoGeneratorService:
+        class: Matters\Utilities\Generators\DtoGeneratorService
+        arguments:
+          - @Matters\Utilities\Services\FileService

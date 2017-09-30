@@ -1,5 +1,5 @@
 <?php
-namespace Matters\GeneticSim\Utilities;
+namespace Matters\Utilities\Services;
 
 class HelperFunctionService
 {

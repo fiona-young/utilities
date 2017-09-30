@@ -1,6 +1,6 @@
 <?php
-namespace Matters\GeneticSim\Exceptions;
+namespace Matters\Utilities\Exceptions;
 
 use Exception;
 
-class GeneticSimException extends Exception{}
+class UtilitiesException extends Exception{}

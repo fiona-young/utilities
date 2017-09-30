@@ -1,6 +1,6 @@
 <?php
 
-namespace Solarwinds\Oauth2\Test;
+namespace Matters\Utilities\Test;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {

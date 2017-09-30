@@ -1,7 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fcowi
- * Date: 30/09/2017
- * Time: 13:46
- */
+namespace Matters\Utilities\Exceptions;
+
+
+class DtoException extends UtilitiesException {}
