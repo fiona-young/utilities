@@ -1,0 +1,11 @@
+imports:
+    - { resource: "utilites.yml" }
+
+services:
+
+    Symfony\Component\HttpFoundation\Request:
+        class: Symfony\Component\HttpFoundation\Request
+        factory_class: Symfony\Component\HttpFoundation\Request
+        factory_method: createFromGlobals
+        scope: container
+

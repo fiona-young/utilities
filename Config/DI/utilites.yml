@@ -1,0 +1,8 @@
+services:
+      Matters\Utilities\Services\HelperFunctionService:
+        class: Matters\Utilities\Services\HelperFunctionService
+
+      Matters\Utilities\Services\FileService:
+        class: Matters\Utilities\Services\FileService
+        arguments:
+          - @Matters\Utilities\Services\HelperFunctionService

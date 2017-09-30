@@ -1,0 +1,9 @@
+{
+  "db":{
+    "engine":"mysql",
+    "host":"localhost",
+    "database":"genetic_sim",
+    "username":"root",
+    "password":""
+  }
+}

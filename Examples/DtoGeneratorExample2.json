@@ -1,0 +1,13 @@
+{
+  "dtoData": {
+    "db": {
+      "engine": "mysql",
+      "host": "localhost",
+      "database": "genetic_sim",
+      "username": "root",
+      "password": ""
+    }
+  },
+  "className": "SettingsDto",
+  "namespace": "Matters/Utilities/Dtos"
+}
