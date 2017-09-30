@@ -1,0 +1,13 @@
+{
+  "dtoData": {
+    "dtoData": "data",
+    "className": "classname",
+    "namespace": "string",
+    "directory": "string",
+    "setters": "bool",
+    "getters": "bool"
+  },
+  "className": "DtoGeneratorInfo",
+  "namespace": "Matters\\Utilities\\Dtos",
+  "directory": "../Src/Dtos"
+}

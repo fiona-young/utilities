@@ -1,1 +1,1 @@
-php ../Src/Runners/DtoGeneratorRunner.php DtoGeneratorFlattenArray.json
+php ../Src/Runners/DtoGeneratorRunner.php DtoGeneratorExample2.json

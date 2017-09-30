@@ -12,46 +12,35 @@ class SettingsDto
         $this->data = (array)$data;
     }
 
-    public function getDbEngine($default = null)
+    public function getDatabaseEngine($default = null)
     {
-        if (is_array($this->data["db"]) && array_key_exists("engine", $this->data["db"])) {
-            return $this->data["db"]["engine"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel2Property('database', 'engine', $default);
     }
 
-    public function getDbHost($default = null)
+    public function getDatabaseHost($default = null)
     {
-        if (is_array($this->data["db"]) && array_key_exists("host", $this->data["db"])) {
-            return $this->data["db"]["host"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel2Property('database', 'host', $default);
     }
 
-    public function getDbDatabase($default = null)
+    public function getDatabaseDatabase($default = null)
     {
-        if (is_array($this->data["db"]) && array_key_exists("database", $this->data["db"])) {
-            return $this->data["db"]["database"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel2Property('database', 'database', $default);
     }
 
-    public function getDbUsername($default = null)
+    public function getDatabaseUsername($default = null)
     {
-        if (is_array($this->data["db"]) && array_key_exists("username", $this->data["db"])) {
-            return $this->data["db"]["username"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel2Property('database', 'username', $default);
     }
 
-    public function getDbPassword($default = null)
+    public function getDatabasePassword($default = null)
     {
-        if (is_array($this->data["db"]) && array_key_exists("password", $this->data["db"])) {
-            return $this->data["db"]["password"];
+       return $this->getLevel2Property('database', 'password', $default);
+    }
+
+    private function getLevel2Property($key1, $key2, $default)
+    {
+        if (is_array($this->data[$key1]) && array_key_exists($key2, $this->data[$key1])) {
+            return $this->data[$key1][$key2];
         } else {
             return $default;
         }

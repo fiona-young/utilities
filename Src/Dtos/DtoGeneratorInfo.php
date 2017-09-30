@@ -14,53 +14,38 @@ class DtoGeneratorInfo
 
     public function getDtoData($default = null)
     {
-        if (is_array($this->data) && array_key_exists("dtoData", $this->data)) {
-            return $this->data["dtoData"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel1Property('dtoData', $default);
     }
 
     public function getClassName($default = null)
     {
-        if (is_array($this->data) && array_key_exists("className", $this->data)) {
-            return $this->data["className"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel1Property('className', $default);
     }
 
     public function getNamespace($default = null)
     {
-        if (is_array($this->data) && array_key_exists("namespace", $this->data)) {
-            return $this->data["namespace"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel1Property('namespace', $default);
     }
 
     public function getDirectory($default = null)
     {
-        if (is_array($this->data) && array_key_exists("directory", $this->data)) {
-            return $this->data["directory"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel1Property('directory', $default);
     }
 
     public function getSetters($default = null)
     {
-        if (is_array($this->data) && array_key_exists("setters", $this->data)) {
-            return $this->data["setters"];
-        } else {
-            return $default;
-        }
+       return $this->getLevel1Property('setters', $default);
     }
 
     public function getGetters($default = null)
     {
-        if (is_array($this->data) && array_key_exists("getters", $this->data)) {
-            return $this->data["getters"];
+       return $this->getLevel1Property('getters', $default);
+    }
+
+    private function getLevel1Property($key1, $default)
+    {
+        if (is_array($this->data) && array_key_exists($key1, $this->data)) {
+            return $this->data[$key1];
         } else {
             return $default;
         }
