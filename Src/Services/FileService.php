@@ -28,7 +28,18 @@ class FileService{
         return $decoded;
     }
 
+    public function fromRunningDirectory($file){
+        return $this->helpers->getCwd().'/'.$file;
+    }
+
     public function writeFile($fileLocation, $data){
-        $this->helpers->filePutContents($fileLocation, $data);
+        $success =  $this->helpers->filePutContents($fileLocation, $data);
+        if($success === false){
+            throw new FileServiceException(sprintf("file %s could not be written", $fileLocation));
+        }
+    }
+
+    public function getDirectory($fileLocation){
+        return $this->helpers->dirName($fileLocation).'/';
     }
 }

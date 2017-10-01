@@ -1,0 +1,17 @@
+{
+  "dtoData": {
+    "enumFindBy": "array",
+    "enumKeys": "array",
+    "enumTypes": "array",
+    "enumData": "assocArray",
+    "enumTranspose": "assocArray",
+    "className": "string",
+    "namespace": "string",
+    "directory": "string"
+  },
+  "className": "EnumTemplate",
+  "namespace": "Matters\\Utilities\\Dtos",
+  "directory": "../../Src/Dtos",
+  "setters": true
+}
+

@@ -5,5 +5,5 @@
   },
   "className": "FlattenArrayDto",
   "namespace": "Matters\\Utilities\\Dtos",
-  "directory": "../Src/Dtos"
+  "directory": "../../Src/Dtos"
 }

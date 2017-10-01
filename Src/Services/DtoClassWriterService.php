@@ -1,8 +1,8 @@
 <?php
 namespace Matters\Utilities\Services;
-use Matters\Utilities\Dtos\DtoGeneratorInfo;
+use Matters\Utilities\Dtos\DtoTemplate;
 
-class ClassWriterService{
+class DtoClassWriterService{
     const GETTER = <<<TEXT
     public function get%METHOD%(\$default = null)
     {
@@ -37,11 +37,11 @@ TEXT;
 
 
     /**
-     * @param DtoGeneratorInfo $dtoGeneratorInfo
+     * @param DtoTemplate $dtoGeneratorInfo
      * @param array $flattenedList
      * @return string
      */
-    public function getDtoClassText(DtoGeneratorInfo $dtoGeneratorInfo, $flattenedList)
+    public function getClassText(DtoTemplate $dtoGeneratorInfo, $flattenedList)
     {
         $string = "<?php".$this->end().$this->end();
         $string .= "namespace ".$dtoGeneratorInfo->getNamespace().$this->end(';').$this->end();

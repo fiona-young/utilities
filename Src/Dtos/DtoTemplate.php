@@ -2,7 +2,7 @@
 
 namespace Matters\Utilities\Dtos;
 
-class DtoGeneratorInfo
+class DtoTemplate
 {
 
     private $data;

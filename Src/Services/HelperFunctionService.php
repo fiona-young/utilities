@@ -14,4 +14,13 @@ class HelperFunctionService
     public function filePutContents($fileName, $data){
         return @file_put_contents($fileName, $data);
     }
+
+    public function getCwd(){
+        return getcwd();
+    }
+
+    public function dirName($fileName){
+        return dirname($fileName);
+    }
+
 }

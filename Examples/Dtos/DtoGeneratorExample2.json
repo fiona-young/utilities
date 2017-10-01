@@ -2,6 +2,6 @@
   "dtoFile": "settings.json",
   "className": "SettingsDto",
   "namespace": "Matters\\Utilities\\Dtos",
-  "directory": "../Src/Dtos",
+  "directory": "../../Src/Dtos",
   "setters": false
 }

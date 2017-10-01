@@ -18,9 +18,6 @@ class FlattenArrayServiceTest extends TestCase
 
     public function testWhenData(){
         $data =  ["db" => ["host" => "localhost", "database" => "genetics"]];
-        $flattenedArrayList = $this->subject->getFlattenedArrayList($data);
-        $this->assertCount(2,$flattenedArrayList);
-        #$this->assertEquals(['keys'=>["db","host"],'method'=>'DbHost'],$flattenedArrayList[0]->getAttributes());
-       # $this->assertEquals(['keys'=>["db","database"],'method'=>'DbDatabase'],$flattenedArrayList[1]->getAttributes());
+        $this->assertEquals(['DbHost'=>['db','host'],'DbDatabase'=>['db','database']], $this->subject->getFlattenedArrayList($data));
     }
 }

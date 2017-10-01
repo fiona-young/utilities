@@ -1,0 +1,12 @@
+{
+  "enumKeys":["id","name"],
+  "enumFindBy":[],
+  "enumData": {
+    "NONE": [],
+    "ARRAY_IN": [],
+    "PARAMETER_LIST": []
+  },
+  "className": "ConstructorTypes",
+  "namespace": "Matters\\Utilities\\Enums",
+  "directory": "../../Src/Enums"
+}

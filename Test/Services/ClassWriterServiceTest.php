@@ -2,17 +2,18 @@
 namespace Matters\Utilities\Test\Dtos;
 
 use Matters\Utilities\Dtos\DtoGeneratorInfo;
-use Matters\Utilities\Services\ClassWriterService;
+use Matters\Utilities\Dtos\DtoTemplate;
+use Matters\Utilities\Services\DtoClassWriterService;
 use Matters\Utilities\Test\TestCase;
 
 class ClassWriterServiceTest extends TestCase
 {
-    /** @var  ClassWriterService */
+    /** @var  DtoClassWriterService */
     private $subject;
 
     public function setUp()
     {
-        $this->subject = new ClassWriterService();
+        $this->subject = new DtoClassWriterService();
     }
 
     public function testOne()
@@ -23,8 +24,8 @@ class ClassWriterServiceTest extends TestCase
             "Keys" => ["keys"],
             "Level1Level2Level3"=>['level1','level2','level3']
         ];
-        $dtoGeneratorInfo = new DtoGeneratorInfo(["className"=>"SettingsDto","namespace"=>"Matters\Utilities\Test\Dtos"]);
-        $text = $this->subject->getDtoClassText($dtoGeneratorInfo, $flattenArrayList);
+        $dtoGeneratorInfo = new DtoTemplate(["className"=>"SettingsDto","namespace"=>"Matters\Utilities\Test\Dtos"]);
+        $text = $this->subject->getClassText($dtoGeneratorInfo, $flattenArrayList);
         file_put_contents('SettingsDto.php', $text);
     }
 }

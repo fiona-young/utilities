@@ -7,7 +7,7 @@
     "setters": "bool",
     "getters": "bool"
   },
-  "className": "DtoGeneratorInfo",
+  "className": "DtoTemplate",
   "namespace": "Matters\\Utilities\\Dtos",
-  "directory": "../Src/Dtos"
+  "directory": "../../Src/Dtos"
 }
