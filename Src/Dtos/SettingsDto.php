@@ -12,32 +12,32 @@ class SettingsDto
         $this->data = (array)$data;
     }
 
-    public function getDatabaseEngine($default = null)
+    public function getDbEngine($default = null)
     {
-       return $this->getLevel2Property('database', 'engine', $default);
+       return $this->get2DAttribute('db', 'engine', $default);
     }
 
-    public function getDatabaseHost($default = null)
+    public function getDbHost($default = null)
     {
-       return $this->getLevel2Property('database', 'host', $default);
+       return $this->get2DAttribute('db', 'host', $default);
     }
 
-    public function getDatabaseDatabase($default = null)
+    public function getDbDatabase($default = null)
     {
-       return $this->getLevel2Property('database', 'database', $default);
+       return $this->get2DAttribute('db', 'database', $default);
     }
 
-    public function getDatabaseUsername($default = null)
+    public function getDbUsername($default = null)
     {
-       return $this->getLevel2Property('database', 'username', $default);
+       return $this->get2DAttribute('db', 'username', $default);
     }
 
-    public function getDatabasePassword($default = null)
+    public function getDbPassword($default = null)
     {
-       return $this->getLevel2Property('database', 'password', $default);
+       return $this->get2DAttribute('db', 'password', $default);
     }
 
-    private function getLevel2Property($key1, $key2, $default)
+    private function get2DAttribute($key1, $key2, $default)
     {
         if (is_array($this->data[$key1]) && array_key_exists($key2, $this->data[$key1])) {
             return $this->data[$key1][$key2];

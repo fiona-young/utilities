@@ -3,18 +3,12 @@ namespace Matters\Utilities\Services;
 use Matters\Utilities\Dtos\DtoGeneratorInfo;
 
 class ClassWriterService{
-    const GETTER_PARAMS = ['%METHOD%','%INDEX%','%PARAMETER%','%PRE_INDEX%','%LAST_KEY%'];
     const GETTER = <<<TEXT
     public function get%METHOD%(\$default = null)
     {
-        if (is_array(\$this->data%PRE_INDEX%) && array_key_exists("%LAST_KEY%", \$this->data%PRE_INDEX%)) {
-            return \$this->data%INDEX%;
-        } else {
-            return \$default;
-        }
+       return \$this->get%DEPTH%Attribute(%PARAMETER_LIST%, \$default);
     }
 TEXT;
-    const SETTER_PARAMS = ['%METHOD%','%INDEX%','%PARAMETER%'];
     const SETTER = <<<TEXT
     public function set%METHOD%(\$%PARAMETER%)
     {
@@ -30,28 +24,39 @@ TEXT;
     }
 TEXT;
 
+    const GETTER_GENERAL= <<<TEXT
+    private function get%DEPTH%Attribute(%PARAMETER_LIST%, \$default)
+    {
+        if (is_array(\$this->data%PRE_INDEX%) && array_key_exists(%LAST_KEY%, \$this->data%PRE_INDEX%)) {
+            return \$this->data%INDEX%;
+        } else {
+            return \$default;
+        }
+    }
+TEXT;
+
 
     /**
      * @param DtoGeneratorInfo $dtoGeneratorInfo
      * @param array $flattenedList
      * @return string
      */
-    public function getDtoClassText(DtoGeneratorInfo $dtoGeneratorInfo, $flattenedList){
+    public function getDtoClassText(DtoGeneratorInfo $dtoGeneratorInfo, $flattenedList)
+    {
         $string = "<?php".$this->end().$this->end();
-        $string.= "namespace ".$dtoGeneratorInfo->getNamespace().$this->end(';').$this->end();
-        $string.= "class ".$dtoGeneratorInfo->getClassName().$this->end().$this->end('{').$this->end();
-        $string.=self::HEAD.$this->end();
-        if($dtoGeneratorInfo->getGetters(true)) {
+        $string .= "namespace ".$dtoGeneratorInfo->getNamespace().$this->end(';').$this->end();
+        $string .= "class ".$dtoGeneratorInfo->getClassName().$this->end().$this->end('{').$this->end();
+        $string .= self::HEAD.$this->end();
+        if ($dtoGeneratorInfo->getGetters(true)) {
             $string .= $this->getGetters($flattenedList);
         }
-        if($dtoGeneratorInfo->getSetters(true)) {
-            $string.=$this->getSetters($flattenedList);
+        if ($dtoGeneratorInfo->getSetters(true)) {
+            $string .= $this->getSetters($flattenedList);
         }
-        $string.=$this->end('}');
+        $string .= $this->end('}');
+
         return $string;
-
     }
-
 
     /**
      * @param array $flattenedList
@@ -60,17 +65,55 @@ TEXT;
     private function getGetters($flattenedList)
     {
         $string = "";
+        $getterDepths = [];
+        $search = ['%METHOD%', '%DEPTH%', '%PARAMETER_LIST%'];
         foreach ($flattenedList as $method => $classKeys) {
+            $depth = count($classKeys);
+            $getterDepths[$depth] = $depth;
             $replacements = [
                 $method,
-                $this->getArrayAsIndex($classKeys),
-                lcfirst($method),
-                $this->getArrayAsIndex(array_slice($classKeys, 0, -1)),
-                end($classKeys),
+                $this->getDepthLabel($depth),
+                "'".implode("', '", $classKeys)."'",
             ];
-            $string.=$this->insertData(self::GETTER_PARAMS, $replacements, self::GETTER);
+            $string .= $this->insertData($search, $replacements, self::GETTER);
         }
+        $this->getGeneralGetters($getterDepths);
         return $string;
+    }
+
+    private function getGeneralGetters($getterDepths)
+    {
+        $search = ['%DEPTH%', '%INDEX%', '%PARAMETER_LIST%', '%PRE_INDEX%', '%LAST_KEY%'];
+        $string = '';
+        foreach ($getterDepths as $depth) {
+            $keys = $this->getDepthKeyList($depth);
+            $replacements = [
+                $this->getDepthLabel($depth),
+                $this->getArrayAsIndex($keys),
+                implode(', ', $keys),
+                $this->getArrayAsIndex(array_slice($keys, 0, -1)),
+                end($keys),
+            ];
+            $string .= $this->insertData($search, $replacements, self::GETTER_GENERAL);
+
+            return $string;
+        }
+    }
+
+    private function getDepthLabel($depth)
+    {
+        return ($depth == 1) ? '' : $depth.'D';
+    }
+
+    private function getDepthKeyList($depth)
+    {
+        if ($depth == 1) {
+            return ['$key'];
+        } else {
+            return array_map(function ($a) {
+                return '$key'.$a;
+            }, range(1, $depth));
+        }
     }
 
     /**
@@ -79,35 +122,42 @@ TEXT;
      */
     private function getSetters($flattenedList)
     {
+        $search = ['%METHOD%', '%INDEX%', '%PARAMETER%'];
         $string = "";
         foreach ($flattenedList as $method => $classKeys) {
             $replacements = [
                 $method,
-                $this->getArrayAsIndex($classKeys),
+                $this->getArrayAsIndex($classKeys, true),
                 lcfirst($method),
             ];
-            $string.=$this->insertData(self::SETTER_PARAMS,$replacements, self::SETTER);
+            $string .= $this->insertData($search, $replacements, self::SETTER);
         }
+
         return $string;
     }
 
-    private function insertData($search, $replace, $format){
+    private function insertData($search, $replace, $format)
+    {
         $string = $this->end();
         $string .= str_replace($search, $replace, $format);
-        $string.=$this->end();
+        $string .= $this->end();
+
         return $string;
     }
 
-
-    private function getArrayAsIndex($array){
-        if(empty($array)){
+    private function getArrayAsIndex($array, $addQuotes = false)
+    {
+        if (empty($array)) {
             return "";
-        }else {
-            return '["'.implode('"]["', $array).'"]';
+        } elseif ($addQuotes) {
+            return "['".implode("']['", $array)."']";
+        } else {
+            return '['.implode('][', $array).']';
         }
     }
 
-    private function end($string=""){
+    private function end($string = "")
+    {
         return $string."\n";
     }
 

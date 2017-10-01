@@ -14,38 +14,38 @@ class DtoGeneratorInfo
 
     public function getDtoData($default = null)
     {
-       return $this->getLevel1Property('dtoData', $default);
+       return $this->getAttribute('dtoData', $default);
     }
 
     public function getClassName($default = null)
     {
-       return $this->getLevel1Property('className', $default);
+       return $this->getAttribute('className', $default);
     }
 
     public function getNamespace($default = null)
     {
-       return $this->getLevel1Property('namespace', $default);
+       return $this->getAttribute('namespace', $default);
     }
 
     public function getDirectory($default = null)
     {
-       return $this->getLevel1Property('directory', $default);
+       return $this->getAttribute('directory', $default);
     }
 
     public function getSetters($default = null)
     {
-       return $this->getLevel1Property('setters', $default);
+       return $this->getAttribute('setters', $default);
     }
 
     public function getGetters($default = null)
     {
-       return $this->getLevel1Property('getters', $default);
+       return $this->getAttribute('getters', $default);
     }
 
-    private function getLevel1Property($key1, $default)
+    private function getAttribute($key, $default)
     {
-        if (is_array($this->data) && array_key_exists($key1, $this->data)) {
-            return $this->data[$key1];
+        if (is_array($this->data) && array_key_exists($key, $this->data)) {
+            return $this->data[$key];
         } else {
             return $default;
         }
@@ -53,31 +53,31 @@ class DtoGeneratorInfo
 
     public function setDtoData($dtoData)
     {
-        $this->data["dtoData"] = $dtoData;
+        $this->data['dtoData'] = $dtoData;
     }
 
     public function setClassName($className)
     {
-        $this->data["className"] = $className;
+        $this->data['className'] = $className;
     }
 
     public function setNamespace($namespace)
     {
-        $this->data["namespace"] = $namespace;
+        $this->data['namespace'] = $namespace;
     }
 
     public function setDirectory($directory)
     {
-        $this->data["directory"] = $directory;
+        $this->data['directory'] = $directory;
     }
 
     public function setSetters($setters)
     {
-        $this->data["setters"] = $setters;
+        $this->data['setters'] = $setters;
     }
 
     public function setGetters($getters)
     {
-        $this->data["getters"] = $getters;
+        $this->data['getters'] = $getters;
     }
 }
