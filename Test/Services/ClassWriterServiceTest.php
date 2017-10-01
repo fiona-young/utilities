@@ -20,7 +20,8 @@ class ClassWriterServiceTest extends TestCase
         $flattenArrayList = [
             'DbEngine' => ['db', 'engine'],
             'DbUsername' => ['db', 'username'],
-            "Keys" => ["keys"]
+            "Keys" => ["keys"],
+            "Level1Level2Level3"=>['level1','level2','level3']
         ];
         $dtoGeneratorInfo = new DtoGeneratorInfo(["className"=>"SettingsDto","namespace"=>"Matters\Utilities\Test\Dtos"]);
         $text = $this->subject->getDtoClassText($dtoGeneratorInfo, $flattenArrayList);

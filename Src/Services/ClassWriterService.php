@@ -77,7 +77,7 @@ TEXT;
             ];
             $string .= $this->insertData($search, $replacements, self::GETTER);
         }
-        $this->getGeneralGetters($getterDepths);
+        $string .= $this->getGeneralGetters($getterDepths);
         return $string;
     }
 
@@ -95,9 +95,8 @@ TEXT;
                 end($keys),
             ];
             $string .= $this->insertData($search, $replacements, self::GETTER_GENERAL);
-
-            return $string;
         }
+        return $string;
     }
 
     private function getDepthLabel($depth)
