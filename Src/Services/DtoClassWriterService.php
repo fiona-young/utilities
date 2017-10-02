@@ -37,20 +37,20 @@ TEXT;
 
 
     /**
-     * @param DtoTemplate $dtoGeneratorInfo
+     * @param DtoTemplate $dtoTemplate
      * @param array $flattenedList
      * @return string
      */
-    public function getClassText(DtoTemplate $dtoGeneratorInfo, $flattenedList)
+    public function getClassText(DtoTemplate $dtoTemplate, $flattenedList)
     {
         $string = "<?php".$this->end().$this->end();
-        $string .= "namespace ".$dtoGeneratorInfo->getNamespace().$this->end(';').$this->end();
-        $string .= "class ".$dtoGeneratorInfo->getClassName().$this->end().$this->end('{').$this->end();
+        $string .= "namespace ".$dtoTemplate->getNamespace().$this->end(';').$this->end();
+        $string .= "class ".$dtoTemplate->getClassName().$this->end().$this->end('{').$this->end();
         $string .= self::HEAD.$this->end();
-        if ($dtoGeneratorInfo->getGetters(true)) {
+        if ($dtoTemplate->getGetters(true)) {
             $string .= $this->getGetters($flattenedList);
         }
-        if ($dtoGeneratorInfo->getSetters(true)) {
+        if ($dtoTemplate->getSetters(true)) {
             $string .= $this->getSetters($flattenedList);
         }
         $string .= $this->end('}');

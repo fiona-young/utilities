@@ -47,7 +47,7 @@ class DtoGeneratorService
             throw new UtilitiesException("no file selected");
         }
         $dtoTemplate = $this->loadFile($fileLocation);
-        $flattenedList = $this->flattenArrayService->getFlattenedArrayList($dtoTemplate->getDtoData());
+        $flattenedList = $this->flattenArrayService->getWalkedList($dtoTemplate->getDtoData());
         $classText = $this->classWriter->getClassText($dtoTemplate, $flattenedList);
         $fileName = $dtoTemplate->getDirectory()."/".$dtoTemplate->getClassName().".php";
         $this->fileService->writeFile($fileName, $classText);
