@@ -3,38 +3,6 @@ namespace Matters\Utilities\Services;
 use Matters\Utilities\Dtos\DtoTemplate;
 
 class DtoClassWriterService{
-    const GETTER = <<<TEXT
-    public function get%METHOD%(\$default = null)
-    {
-       return \$this->get%DEPTH%Attribute(%PARAMETER_LIST%, \$default);
-    }
-TEXT;
-    const SETTER = <<<TEXT
-    public function set%METHOD%(\$%PARAMETER%)
-    {
-        \$this->data%INDEX% = \$%PARAMETER%;
-    }
-TEXT;
-    const HEAD = <<<TEXT
-    private \$data;
-
-    public function __construct(\$data = [])
-    {
-        \$this->data = (array)\$data;
-    }
-TEXT;
-
-    const GETTER_GENERAL= <<<TEXT
-    private function get%DEPTH%Attribute(%PARAMETER_LIST%, \$default)
-    {
-        if (is_array(\$this->data%PRE_INDEX%) && array_key_exists(%LAST_KEY%, \$this->data%PRE_INDEX%)) {
-            return \$this->data%INDEX%;
-        } else {
-            return \$default;
-        }
-    }
-TEXT;
-
 
     /**
      * @param DtoTemplate $dtoTemplate
@@ -46,7 +14,16 @@ TEXT;
         $string = "<?php".$this->end().$this->end();
         $string .= "namespace ".$dtoTemplate->getNamespace().$this->end(';').$this->end();
         $string .= "class ".$dtoTemplate->getClassName().$this->end().$this->end('{').$this->end();
-        $string .= self::HEAD.$this->end();
+        $string .= <<<TEXT
+    private \$data;
+
+    public function __construct(\$data = [])
+    {
+        \$this->data = (array)\$data;
+    }
+TEXT;
+
+        $string .= $this->end();
         if ($dtoTemplate->getGetters(true)) {
             $string .= $this->getGetters($flattenedList);
         }
@@ -64,6 +41,12 @@ TEXT;
      */
     private function getGetters($flattenedList)
     {
+        $getterText = <<<TEXT
+    public function get%METHOD%(\$default = null)
+    {
+       return \$this->get%DEPTH%Attribute(%PARAMETER_LIST%, \$default);
+    }
+TEXT;
         $string = "";
         $getterDepths = [];
         $search = ['%METHOD%', '%DEPTH%', '%PARAMETER_LIST%'];
@@ -75,7 +58,7 @@ TEXT;
                 $this->getDepthLabel($depth),
                 "'".implode("', '", $classKeys)."'",
             ];
-            $string .= $this->insertData($search, $replacements, self::GETTER);
+            $string .= $this->insertData($search, $replacements, $getterText);
         }
         $string .= $this->getGeneralGetters($getterDepths);
         return $string;
@@ -83,6 +66,16 @@ TEXT;
 
     private function getGeneralGetters($getterDepths)
     {
+        $getterGeneralText= <<<TEXT
+    private function get%DEPTH%Attribute(%PARAMETER_LIST%, \$default)
+    {
+        if (is_array(\$this->data%PRE_INDEX%) && array_key_exists(%LAST_KEY%, \$this->data%PRE_INDEX%)) {
+            return \$this->data%INDEX%;
+        } else {
+            return \$default;
+        }
+    }
+TEXT;
         $search = ['%DEPTH%', '%INDEX%', '%PARAMETER_LIST%', '%PRE_INDEX%', '%LAST_KEY%'];
         $string = '';
         foreach ($getterDepths as $depth) {
@@ -94,7 +87,7 @@ TEXT;
                 $this->getArrayAsIndex(array_slice($keys, 0, -1)),
                 end($keys),
             ];
-            $string .= $this->insertData($search, $replacements, self::GETTER_GENERAL);
+            $string .= $this->insertData($search, $replacements, $getterGeneralText);
         }
         return $string;
     }
@@ -121,6 +114,12 @@ TEXT;
      */
     private function getSetters($flattenedList)
     {
+       $setterText = <<<TEXT
+    public function set%METHOD%(\$%PARAMETER%)
+    {
+        \$this->data%INDEX% = \$%PARAMETER%;
+    }
+TEXT;
         $search = ['%METHOD%', '%INDEX%', '%PARAMETER%'];
         $string = "";
         foreach ($flattenedList as $method => $classKeys) {
@@ -129,7 +128,7 @@ TEXT;
                 $this->getArrayAsIndex($classKeys, true),
                 lcfirst($method),
             ];
-            $string .= $this->insertData($search, $replacements, self::SETTER);
+            $string .= $this->insertData($search, $replacements, $setterText);
         }
 
         return $string;
