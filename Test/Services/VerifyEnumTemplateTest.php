@@ -174,37 +174,93 @@ class VerifyEnumTemplateTest extends TestCase
         $this->subject->verify($enumTemplate);
     }
 
-
-    public function test_methodIdAndName()
+    /**
+     * @expectedException \Matters\Utilities\Exceptions\UtilitiesException
+     * @expectedExceptionMessage Error VerifyEnumTemplate: enumData is 1D array
+     */
+    public function test_enumDataNumericKeys2DArray()
     {
         $enumData = [
             "enumKeys" => [],
             "enumFindBy" => [],
-            "enumData" => [
-                "MSP_SSO" => ['msp_sso', "Turn on"],
-                "RISK_INTELLIGENCE" => [15, "_('Risk Intelligence')"],
-                "DEVICE_FILTERS" => ['device filters', "_('Device Filters)"]
-            ],
-            "className" => "ConstructorTypes",
+            "enumData" => [[],[],[] ],
+            "className" => 'ConstructorTypes',
             "namespace" => 'Matters\\Utilities\\Enums',
             "directory" => '../../Src/Enums'
-        ];
-        $methodName = ProcessEnumTemplate::METHOD_NAME;
+        ];;
         $enumTemplate = new EnumTemplate($enumData);
-        $processedTemplate = $this->subject->process($enumTemplate);
-        $this->assertEquals($enumData['directory'], $processedTemplate->getDirectory());
-        $this->assertEquals($enumData['className'], $processedTemplate->getClassName());
-        $this->assertEquals($enumData['namespace'], $processedTemplate->getNamespace());
-        $this->assertEquals([
-            "ADD" => [$methodName => "'ADD'"],
-            "UPDATE" => [$methodName => "'UPDATE'"],
-            "DELETE" => [$methodName => "'DELETE'"]
-        ], $processedTemplate->getEnumData());
-        $this->assertEquals([$methodName], $processedTemplate->getEnumFindBy());
-        $this->assertEquals([$methodName], $processedTemplate->getEnumKeys());
-        $this->assertEquals([$methodName=>["'ADD'","'UPDATE'","'DELETE'"]], $processedTemplate->getEnumTranspose());
-        $this->assertEquals(["ADD","UPDATE","DELETE"], $processedTemplate->getEnumTypes());
+        $this->subject->verify($enumTemplate);
     }
 
+    /**
+ * @expectedException \Matters\Utilities\Exceptions\UtilitiesException
+ * @expectedExceptionMessage Error VerifyEnumTemplate: enumData is 1D array
+ */
+    public function test_enumData2DArrayInconsistentSize()
+    {
+        $enumData = [
+            "enumKeys" => [],
+            "enumFindBy" => [],
+            "enumData" => ['ADD'=>['pink'],'UPDATE'=>['blue','red'],'DELETE'=>[] ],
+            "className" => 'ConstructorTypes',
+            "namespace" => 'Matters\\Utilities\\Enums',
+            "directory" => '../../Src/Enums'
+        ];;
+        $enumTemplate = new EnumTemplate($enumData);
+        $this->subject->verify($enumTemplate);
+    }
 
+    /**
+     * @expectedException \Matters\Utilities\Exceptions\UtilitiesException
+     * @expectedExceptionMessage Error VerifyEnumTemplate: enumData is 1D array
+     */
+    public function test_enumKeysWrongSize()
+    {
+        $enumData = [
+            "enumKeys" => [],
+            "enumFindBy" => [],
+            "enumData" => ['ADD'=>['pink'],'UPDATE'=>['blue','red'],'DELETE'=>[] ],
+            "className" => 'ConstructorTypes',
+            "namespace" => 'Matters\\Utilities\\Enums',
+            "directory" => '../../Src/Enums'
+        ];;
+        $enumTemplate = new EnumTemplate($enumData);
+        $this->subject->verify($enumTemplate);
+    }
+
+    /**
+     * @expectedException \Matters\Utilities\Exceptions\UtilitiesException
+     * @expectedExceptionMessage Error VerifyEnumTemplate: enumData is 1D array
+     */
+    public function test_enumFindByNotSubset()
+    {
+        $enumData = [
+            "enumKeys" => [],
+            "enumFindBy" => [],
+            "enumData" => ['ADD'=>['pink'],'UPDATE'=>['blue','red'],'DELETE'=>[] ],
+            "className" => 'ConstructorTypes',
+            "namespace" => 'Matters\\Utilities\\Enums',
+            "directory" => '../../Src/Enums'
+        ];;
+        $enumTemplate = new EnumTemplate($enumData);
+        $this->subject->verify($enumTemplate);
+    }
+
+    /**
+     * @expectedException \Matters\Utilities\Exceptions\UtilitiesException
+     * @expectedExceptionMessage Error VerifyEnumTemplate: enumData is 1D array
+     */
+    public function test_enumFindByNotUnique()
+    {
+        $enumData = [
+            "enumKeys" => [],
+            "enumFindBy" => [],
+            "enumData" => ['ADD'=>['pink'],'UPDATE'=>['blue','red'],'DELETE'=>[] ],
+            "className" => 'ConstructorTypes',
+            "namespace" => 'Matters\\Utilities\\Enums',
+            "directory" => '../../Src/Enums'
+        ];;
+        $enumTemplate = new EnumTemplate($enumData);
+        $this->subject->verify($enumTemplate);
+    }
 }
