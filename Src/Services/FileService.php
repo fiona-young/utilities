@@ -16,7 +16,7 @@ class FileService{
      * @return \stdClass | array
      * @throws FileServiceException
      */
-    public function getDecodeJsonFromFile($fileLocation, $asArray = true){
+    public function getDecodedJsonFromFile($fileLocation, $asArray = true){
         $json = $this->helpers->fileGetContents($fileLocation);
         if($json === false){
             throw new FileServiceException(sprintf("location (%s) unreadable", $fileLocation));
@@ -28,14 +28,14 @@ class FileService{
         return $decoded;
     }
 
-    public function fromRunningDirectory($file){
+    public function getFromRunningDirectory($file){
         return $this->helpers->getCwd().'/'.$file;
     }
 
     public function writeFile($fileLocation, $data){
         $success =  $this->helpers->filePutContents($fileLocation, $data);
         if($success === false){
-            throw new FileServiceException(sprintf("file %s could not be written", $fileLocation));
+            throw new FileServiceException(sprintf("file (%s) could not be written", $fileLocation));
         }
     }
 

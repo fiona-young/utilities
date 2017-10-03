@@ -26,8 +26,8 @@ class EnumGeneratorService
         if(is_null($fileLocation)){
             throw new UtilitiesException("no file selected");
         }
-        $fileLocation = $this->fileService->fromRunningDirectory($fileLocation);
-        $data = $this->fileService->getDecodeJsonFromFile($fileLocation);
+        $fileLocation = $this->fileService->getFromRunningDirectory($fileLocation);
+        $data = $this->fileService->getDecodedJsonFromFile($fileLocation);
         $enumTemplate = new EnumTemplate($data);
         $dir = $this->fileService->getDirectory($fileLocation);
         $enumTemplate->setDirectory($dir.$enumTemplate->getDirectory());

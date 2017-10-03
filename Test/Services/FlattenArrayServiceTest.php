@@ -1,5 +1,5 @@
 <?php
-namespace Matters\Utilities\Test\Dtos;
+namespace Matters\Utilities\Test\Services;
 
 use Matters\Utilities\Services\FlattenArrayService;
 use Matters\Utilities\Test\TestCase;

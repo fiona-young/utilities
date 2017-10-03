@@ -27,14 +27,14 @@ class DtoGeneratorService
     public function loadFile($fileLocation)
     {
 
-        $fileLocation = $this->fileService->fromRunningDirectory($fileLocation);
-        $data = $this->fileService->getDecodeJsonFromFile($fileLocation);
+        $fileLocation = $this->fileService->getFromRunningDirectory($fileLocation);
+        $data = $this->fileService->getDecodedJsonFromFile($fileLocation);
         $dir = $this->fileService->getDirectory($fileLocation);
         if (!array_key_exists(self::PARAM_DTO_DATA, $data)) {
             if(!array_key_exists(self::PARAM_DTO_FILE, $data)) {
                 throw new DtoGeneratorServiceException('Data '.self::PARAM_DTO_DATA.'or '.self::PARAM_DTO_FILE.' not set in input file '.$fileLocation);
             }
-            $data[self::PARAM_DTO_DATA]= $this->fileService->getDecodeJsonFromFile($dir. $data[self::PARAM_DTO_FILE]);
+            $data[self::PARAM_DTO_DATA]= $this->fileService->getDecodedJsonFromFile($dir. $data[self::PARAM_DTO_FILE]);
             unset($data[self::PARAM_DTO_FILE]);
         }
         $dtoTemplate = new DtoTemplate($data);
