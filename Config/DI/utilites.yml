@@ -13,6 +13,9 @@ services:
       Matters\Utilities\Services\ProcessEnumTemplate:
         class: Matters\Utilities\Services\ProcessEnumTemplate
 
+      Matters\Utilities\Services\VerifyEnumTemplate:
+        class: Matters\Utilities\Services\VerifyEnumTemplate
+
       Matters\Utilities\Services\DtoClassWriterService:
         class: Matters\Utilities\Services\DtoClassWriterService
 
@@ -30,5 +33,6 @@ services:
         class: Matters\Utilities\Generators\EnumGeneratorService
         arguments:
           - @Matters\Utilities\Services\FileService
+          - @Matters\Utilities\Services\VerifyEnumTemplate
           - @Matters\Utilities\Services\ProcessEnumTemplate
           - @Matters\Utilities\Services\EnumClassWriterService

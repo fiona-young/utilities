@@ -7,16 +7,24 @@ use Matters\Utilities\Exceptions\UtilitiesException;
 use Matters\Utilities\Services\EnumClassWriterService;
 use Matters\Utilities\Services\FileService;
 use Matters\Utilities\Services\ProcessEnumTemplate;
+use Matters\Utilities\Services\VerifyEnumTemplate;
 
 class EnumGeneratorService
 {
     private $fileService;
+    private $verifyEnumTemplate;
     private $processEnumTemplate;
     private $classWriter;
 
-    public function __construct(FileService $fileService, ProcessEnumTemplate $processEnumTemplate, EnumClassWriterService $classWriter)
+    public function __construct(
+        FileService $fileService,
+        VerifyEnumTemplate $verifyEnumTemplate,
+        ProcessEnumTemplate $processEnumTemplate,
+        EnumClassWriterService $classWriter
+    )
     {
         $this->fileService = $fileService;
+        $this->verifyEnumTemplate = $verifyEnumTemplate;
         $this->processEnumTemplate = $processEnumTemplate;
         $this->classWriter = $classWriter;
     }
@@ -36,6 +44,7 @@ class EnumGeneratorService
 
     public function process($fileLocation){
         $enumTemplate = $this->loadFile($fileLocation);
+        $this->verifyEnumTemplate->verify($enumTemplate);
         $enumTemplate = $this->processEnumTemplate->process($enumTemplate);
         $classText = $this->classWriter->getClassText($enumTemplate);
         $fileName = $enumTemplate->getDirectory()."/".$enumTemplate->getClassName().".php";
